@@ -7,6 +7,10 @@
     {
       "js": ["src/handlers/fanbox.js"],
       "matches": ["https://*.fanbox.cc/", "https://fanbox.cc/@*"]
+    },
+    {
+      "js": ["src/handlers/patreon.js"],
+      "matches": ["https://www.patreon.com/*", "https://www.patreon.com/c/*"]
     }
   ],
   "icons": {
