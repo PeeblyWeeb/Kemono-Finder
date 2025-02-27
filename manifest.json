@@ -1,7 +1,7 @@
 {
   "name": "Kemono Finder",
   "description": "Automatically searches for and provides redirects to kemono.su pages.",
-  "version": "0",
+  "version": "1",
   "manifest_version": 3,
   "content_scripts": [
     {
