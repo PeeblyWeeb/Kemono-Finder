@@ -1,7 +1,7 @@
 # Kemono Finder
 ![kemono-logo](https://github.com/user-attachments/assets/e650e723-ed5b-4593-980c-d29f08548169)
 
-Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fanbox](https://fanbox.cc/) by using kemonos "creators.txt" (it's actually just json) file to search for the name of the creator page you're currently on.
+Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fanbox](https://fanbox.cc/) on kemono by using kemonos "creators.txt" (it's actually just json) file to search for the name of the creator page you're currently on.
 
 # Currently supported services:
 - Pixiv Fanbox
