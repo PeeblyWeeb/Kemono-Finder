@@ -3,6 +3,10 @@
 
 Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fanbox](https://fanbox.cc/) by using kemonos "creators.txt" (it's actually just json) file to search for the name of the creator page you're currently on.
 
+# Currently supported services:
+- Pixiv Fanbox
+- Patreon
+
 # How to install
 - Download this repository. Either by clicking Code > Download or using `git clone`
 - If compressed, extract
