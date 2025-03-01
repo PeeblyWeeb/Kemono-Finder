@@ -1,10 +1,11 @@
 const usernames = [
-  /https:\/\/(.*)\.fanbox\.cc/gm.exec(document.location.href), // username.fanbox.cc
-  /https:\/\/fanbox\.cc\/@(.*)/gm.exec(document.location.href), // fanbox.cc/@username
-  /(.*)｜pixivFANBOX/gm.exec(document.title), // actual display name
+  /https:\/\/(?:www\.)?fanbox\.cc\/@?([a-zA-Z0-9_]+)(?:\/posts\/\d+)?/gm.exec(document.location.href), // username in url
+  /([^｜]+)｜pixivFANBOX/gm.exec(document.title), // username in title
 ]
   .filter((match) => match)
   .map((match) => match[1]);
+
+console.log("Hello, world!", usernames);
 
 usernames.forEach((username) => {
   fetch("https://corsproxy.io/?url=https://kemono.su/api/v1/creators.txt")
@@ -14,4 +15,3 @@ usernames.forEach((username) => {
       filtered.forEach((creator) => console.log(`https://kemono.su/${creator.service}/user/${creator.id}`))
     );
 });
-console.log("Hello, world!", usernames);

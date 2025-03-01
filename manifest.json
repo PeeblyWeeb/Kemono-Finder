@@ -6,7 +6,7 @@
   "content_scripts": [
     {
       "js": ["src/handlers/fanbox.js"],
-      "matches": ["https://*.fanbox.cc/", "https://fanbox.cc/@*"]
+      "matches": ["https://*.fanbox.cc/", "https://www.fanbox.cc/@*"]
     },
     {
       "js": ["src/handlers/patreon.js"],
