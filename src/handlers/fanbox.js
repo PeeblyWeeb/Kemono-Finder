@@ -11,7 +11,11 @@ usernames.forEach((username) => {
   fetch("https://corsproxy.io/?url=https://kemono.su/api/v1/creators.txt")
     .then((response) => response.json())
     .then((json) => json.filter((creator) => creator.name === username))
-    .then((filtered) =>
-      filtered.forEach((creator) => console.log(`https://kemono.su/${creator.service}/user/${creator.id}`))
-    );
+    .then((filtered) => {
+      const urls = [];
+      filtered.forEach((creator) => {
+        urls.push(`https://kemono.su/${creator.service}/user/${creator.id}`);
+      });
+      if (urls.length > 0) alert(urls.join("\n"));
+    });
 });
