@@ -1,16 +1,31 @@
-const SEARCH_URL = "https://corsproxy.io/?url=https://kemono.su/api/v1/creators.txt";
+const PROXY = "https://corsproxy.io/?url=";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
-    chrome.tabs.sendMessage(tab.id, { type: "getUsernames" }, async (res) => {
-      const response = await fetch(SEARCH_URL);
-      const creators = await response.json();
+  if (message.type == "search") {
+    chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
+      chrome.tabs.sendMessage(tab.id, { type: "getResults" }, async (res) => {
+        // find matching users
+        const response = await fetch(PROXY + "https://kemono.su/api/v1/creators.txt");
+        const creators = await response.json();
 
-      const matches = res.usernames.flatMap((username) => creators.filter((creator) => creator.name === username));
+        const matches = res.usernames.flatMap((username) => creators.filter((creator) => creator.name === username));
 
-      sendResponse(matches);
+        console.log(res.postId);
+        sendResponse({
+          creators: matches,
+          postId: res.postId,
+        });
+      });
     });
-  });
+  }
+  if (message.type == "getPost") {
+    fetch(
+      PROXY + `https://kemono.su/api/v1/${message.creator.service}/user/${message.creator.id}/post/${message.postId}`
+    )
+      .then((res) => res.json())
+      .then(sendResponse)
+      .catch((err) => sendResponse(null));
+  }
 
   return true;
 });

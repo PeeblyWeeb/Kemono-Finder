@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type == "getUsernames") {
+  if (message.type == "getResults") {
     sendResponse({
       usernames: [
         /@([a-zA-Z0-9_]+)/gm.exec(document.location.href), // https://www.fanbox.cc/@[username]
@@ -10,8 +10,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       ]
         .filter((match) => match)
         .map((match) => match[1]),
+      postId: /\/posts\/([0-9]+)/gm.test(document.location.href)
+        ? /\/posts\/([0-9]+)/gm.exec(document.location.href)[1]
+        : null,
     });
   }
 
-  return true;
+  //   return true;
 });

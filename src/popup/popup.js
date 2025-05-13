@@ -29,9 +29,10 @@ function ErrorMessage(message) {
   return div;
 }
 
-function CreatorPreview(username, platform, post_count, updated, id) {
+function CreatorPreview(username, platform, postCount, updated, id) {
   const a = document.createElement("a");
   a.href = `https://kemono.su/${platform}/user/${id}`;
+  a.target = "_blank";
   a.style.display = "flex";
 
   const img = document.createElement("img");
@@ -60,19 +61,38 @@ function CreatorPreview(username, platform, post_count, updated, id) {
   return a;
 }
 
+function PostButton(platform, creatorId, postId) {
+  const a = document.createElement("a");
+  a.href = `https://kemono.su/${platform}/user/${creatorId}/post/${postId}`;
+  a.style.display = "flex";
+  a.target = "_blank";
+  a.innerText = "Current post is available on kemono!";
+
+  return a;
+}
+
 chrome.runtime.sendMessage({ type: "search" }, async (response) => {
   document.body.innerHTML = "";
 
-  if (!response || response.length == 0) {
-    console.log("no results");
+  if (chrome.runtime.lastError) {
+    ErrorMessage("Generic Error");
+    return;
+  }
+  if (!response || response.creators.length == 0) {
     document.body.appendChild(ErrorMessage("No Results"));
     return;
   }
 
-  response.forEach((result) => {
-    console.log(result.updated);
-    document.body.appendChild(CreatorPreview(result.name, result.service, "?", result.updated, result.id));
-  });
-
-  document.body.innerHTML += "use right click + open in new tab :)";
+  for (const creator of response.creators) {
+    if (response.postId != null && response.postId != undefined) {
+      chrome.runtime.sendMessage({ type: "getPost", creator: creator, postId: response.postId }, (res) => {
+        if (res.error) {
+          document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
+          return;
+        }
+        document.body.append(PostButton(creator.service, creator.id, response.postId));
+        document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
+      });
+    }
+  }
 });
