@@ -1,0 +1,25 @@
+body {
+  background-color: rgb(47, 27, 12);
+  color: rgb(200, 200, 200);
+  width: 15rem;
+  height: 9rem;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+img {
+  width: 60px;
+}
+
+a {
+  color: rgb(228, 228, 228);
+  text-decoration: none;
+  padding: 4px;
+  background-color: rgb(79, 54, 37);
+  margin-bottom: 8px;
+}
