@@ -1,21 +1,17 @@
-const usernames = [
-  /https:\/\/(?:www\.)?fanbox\.cc\/@?([a-zA-Z0-9_]+)(?:\/posts\/\d+)?/gm.exec(document.location.href), // username in url
-  /([^｜]+)｜pixivFANBOX/gm.exec(document.title), // username in title
-]
-  .filter((match) => match)
-  .map((match) => match[1]);
-
-console.log("Hello, world!", usernames);
-
-usernames.forEach((username) => {
-  fetch("https://corsproxy.io/?url=https://kemono.su/api/v1/creators.txt")
-    .then((response) => response.json())
-    .then((json) => json.filter((creator) => creator.name === username))
-    .then((filtered) => {
-      const urls = [];
-      filtered.forEach((creator) => {
-        urls.push(`https://kemono.su/${creator.service}/user/${creator.id}`);
-      });
-      if (urls.length > 0) alert(urls.join("\n"));
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type == "getUsernames") {
+    sendResponse({
+      usernames: [
+        /@([a-zA-Z0-9_]+)/gm.exec(document.location.href), // https://www.fanbox.cc/@[username]
+        /\/\/(?!www\.)([^.]+)\.f/gm.exec(document.location.href), // https://[username].fanbox.cc/
+        document.location.href.includes("/posts")
+          ? /^.*｜(.*)｜p/gm.exec(document.title)
+          : /^([^｜]*)｜p/gm.exec(document.title), // username in title
+      ]
+        .filter((match) => match)
+        .map((match) => match[1]),
     });
+  }
+
+  return true;
 });
