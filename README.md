@@ -7,7 +7,7 @@ Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fan
 # Currently supported services:
 
 - Pixiv Fanbox
-- Patreon
+- ~~Patreon~~
 
 # How to install
 
@@ -20,8 +20,4 @@ Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fan
 
 # How to use
 
-Currently, theres no UI for this tool.
-
-You can see the results it finds by opening the inspector or devtools, either by pressing CTRL+SHIFT+I or right clicking the page and selecting "Inspect".
-
-With devtools open you will see a "Hello, world." in the console tab if it is working properly, as well as the urls to any successfully found pages.
+click the icon. :steamhappy:
