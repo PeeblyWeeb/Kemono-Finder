@@ -84,15 +84,13 @@ chrome.runtime.sendMessage({ type: "search" }, async (response) => {
   }
 
   for (const creator of response.creators) {
-    if (response.postId != null && response.postId != undefined) {
-      chrome.runtime.sendMessage({ type: "getPost", creator: creator, postId: response.postId }, (res) => {
-        if (res.error) {
-          document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
-          return;
-        }
-        document.body.append(PostButton(creator.service, creator.id, response.postId));
+    chrome.runtime.sendMessage({ type: "getPost", creator: creator, postId: response.postId }, (res) => {
+      if (res.error) {
         document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
-      });
-    }
+        return;
+      }
+      document.body.append(PostButton(creator.service, creator.id, response.postId));
+      document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
+    });
   }
 });
