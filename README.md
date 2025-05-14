@@ -10,7 +10,7 @@ Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fan
 
 - Pixiv Fanbox
 - Fantia (no post specific searching)
-- ~~Patreon~~
+- Patreon (no post specific searching)
 
 # How to install
 
