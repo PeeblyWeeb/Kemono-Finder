@@ -9,6 +9,7 @@ Helps you find creators on platforms like [Patreon](https://patreon.com/) & [Fan
 # Currently supported services:
 
 - Pixiv Fanbox
+- Fantia (no post specific searching)
 - ~~Patreon~~
 
 # How to install

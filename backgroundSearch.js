@@ -8,11 +8,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         const response = await fetch(PROXY + "https://kemono.su/api/v1/creators.txt");
         const creators = await response.json();
 
-        const matches = res.usernames.flatMap((username) => creators.filter((creator) => creator.name === username));
+        console.log(res);
+        const creator_matches = res.searchValues.flatMap((value) =>
+          creators.filter((creator) => creator[res.searchKey] == value)
+        );
 
-        console.log(res.postId);
         sendResponse({
-          creators: matches,
+          creators: creator_matches,
           postId: res.postId,
         });
       });

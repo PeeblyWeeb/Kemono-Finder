@@ -1,7 +1,12 @@
+const POST_ID_REGEX = /\/posts\/([0-9]+)/gm;
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type == "getResults") {
     sendResponse({
-      usernames: [
+      // breaks unless i inline the regex here???
+      postId: POST_ID_REGEX.test(document.location.href) ? /\/posts\/([0-9]+)/gm.exec(document.location.href)[1] : -1,
+      searchKey: "name",
+      searchValues: [
         /@([a-zA-Z0-9_]+)/gm.exec(document.location.href), // https://www.fanbox.cc/@[username]
         /\/\/(?!www\.)([^.]+)\.f/gm.exec(document.location.href), // https://[username].fanbox.cc/
         document.location.href.includes("/posts")
@@ -10,11 +15,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       ]
         .filter((match) => match)
         .map((match) => match[1]),
-      postId: /\/posts\/([0-9]+)/gm.test(document.location.href)
-        ? /\/posts\/([0-9]+)/gm.exec(document.location.href)[1]
-        : null,
     });
   }
-
-  //   return true;
 });

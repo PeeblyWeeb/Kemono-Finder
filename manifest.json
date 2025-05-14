@@ -18,6 +18,10 @@
       "matches": ["https://*.fanbox.cc/*", "https://www.fanbox.cc/@*"]
     },
     {
+      "js": ["src/handlers/fantia.js"],
+      "matches": ["https://fantia.jp/*"]
+    },
+    {
       "js": ["src/handlers/patreon.js"],
       "matches": ["https://www.patreon.com/*", "https://www.patreon.com/c/*"]
     }
