@@ -3,14 +3,14 @@
   "description": "Automatically searches for and provides redirects to kemono.su pages.",
   "version": "1",
   "manifest_version": 3,
-  "permissions": ["scripting", "activeTab"],
+  "permissions": ["scripting", "activeTab", "tabs", "downloads"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": "icon.png"
   },
   "background": {
-    "service_worker": "backgroundSearch.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {

@@ -71,26 +71,51 @@ function PostButton(platform, creatorId, postId) {
   return a;
 }
 
-chrome.runtime.sendMessage({ type: "search" }, async (response) => {
-  document.body.innerHTML = "";
-
-  if (chrome.runtime.lastError) {
-    ErrorMessage("Generic Error");
-    return;
-  }
-  if (!response || response.creators.length == 0) {
-    document.body.appendChild(ErrorMessage("No Results"));
-    return;
-  }
-
-  for (const creator of response.creators) {
-    chrome.runtime.sendMessage({ type: "getPost", creator: creator, postId: response.postId }, (res) => {
-      if (res.error) {
-        document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
-        return;
-      }
-      document.body.append(PostButton(creator.service, creator.id, response.postId));
-      document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
+function DownloadAllPostsButton() {
+  const button = document.createElement("button");
+  button.innerText = "Download all posts on current page";
+  button.onclick = () => {
+    chrome.runtime.sendMessage({
+      type: "downloadAllPosts",
     });
+  };
+
+  return button;
+}
+
+chrome.runtime.sendMessage(
+  {
+    type: "getIsKemonoPost",
+  },
+  async (isKemonoPost) => {
+    document.body.innerHTML = "";
+    if (!isKemonoPost) {
+      chrome.runtime.sendMessage({ type: "search" }, async (response) => {
+        console.log(response);
+        if (chrome.runtime.lastError || !response) {
+          document.body.appendChild(ErrorMessage("Generic Error"));
+          return;
+        }
+        if (!response || response.creators.length == 0) {
+          document.body.appendChild(ErrorMessage("No Results"));
+          return;
+        }
+
+        for (const creator of response.creators) {
+          chrome.runtime.sendMessage({ type: "getPost", creator: creator, postId: response.postId }, (res) => {
+            if (res.error) {
+              document.body.appendChild(
+                CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id)
+              );
+              return;
+            }
+            document.body.append(PostButton(creator.service, creator.id, response.postId));
+            document.body.appendChild(CreatorPreview(creator.name, creator.service, "?", creator.updated, creator.id));
+          });
+        }
+      });
+    } else {
+      document.body.append(DownloadAllPostsButton());
+    }
   }
-});
+);
