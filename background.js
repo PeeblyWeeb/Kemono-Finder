@@ -2,9 +2,11 @@ const PROXY = "https://corsproxy.io/?url=";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type == "postThumbnailURLs") {
-    message.urls.forEach((url) => {
+    message.urls.forEach((url, index) => {
+      const fileType = /\/.*\.([A-z]+)/.exec(url)[1];
       chrome.downloads.download({
         url: url,
+        filename: `k${message.postId}+${index}.${fileType}`,
       });
     });
   }
@@ -25,6 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             urls: Array.from(document.querySelector(".post__files").children).map(
               (postThumbnail) => postThumbnail.children[0].children[0].href
             ),
+            postId: /https:\/\/kemono\.su\/[A-z]+\/user\/[0-9]+\/post\/([0-9]+)/gm.exec(document.location.href)[1],
           });
         },
       });
