@@ -31,7 +31,7 @@ function ErrorMessage(message) {
 
 function CreatorPreview(username, platform, postCount, updated, id) {
   const a = document.createElement("a");
-  a.href = `https://kemono.su/${platform}/user/${id}`;
+  a.href = `https://kemono.cr/${platform}/user/${id}`;
   a.target = "_blank";
   a.style.display = "flex";
 
@@ -63,7 +63,7 @@ function CreatorPreview(username, platform, postCount, updated, id) {
 
 function PostButton(platform, creatorId, postId) {
   const a = document.createElement("a");
-  a.href = `https://kemono.su/${platform}/user/${creatorId}/post/${postId}`;
+  a.href = `https://kemono.cr/${platform}/user/${creatorId}/post/${postId}`;
   a.style.display = "flex";
   a.target = "_blank";
   a.innerText = "Current post is available on kemono!";

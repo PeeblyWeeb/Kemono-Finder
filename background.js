@@ -1,4 +1,5 @@
 const PROXY = "https://corsproxy.io/?url=";
+const KEMONOROOT = "https://kemono.cr"
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type == "postThumbnailURLs") {
@@ -12,7 +13,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message.type == "getIsKemonoPost") {
     chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
-      sendResponse(/https:\/\/kemono\.su\/[A-z]+\/user\/[0-9]+\/post\/[0-9]+/gm.test(tab.url));
+      sendResponse(/https:\/\/kemono\.cr\/[A-z]+\/user\/[0-9]+\/post\/[0-9]+/gm.test(tab.url));
     });
   }
   if (message.type == "downloadAllPosts") {
@@ -27,7 +28,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             urls: Array.from(document.querySelector(".post__files").children).map(
               (postThumbnail) => postThumbnail.children[0].children[0].href
             ),
-            postId: /https:\/\/kemono\.su\/[A-z]+\/user\/[0-9]+\/post\/([0-9]+)/gm.exec(document.location.href)[1],
+            postId: /https:\/\/kemono\.cr\/[A-z]+\/user\/[0-9]+\/post\/([0-9]+)/gm.exec(document.location.href)[1],
           });
         },
       });
@@ -37,7 +38,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
       chrome.tabs.sendMessage(tab.id, { type: "getResults" }, async (res) => {
         // find matching users
-        const response = await fetch(PROXY + "https://kemono.su/api/v1/creators.txt");
+        const response = await fetch(PROXY + KEMONOROOT + "/api/v1/creators.txt");
         const creators = await response.json();
 
         console.log(res);
@@ -57,7 +58,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message.type == "getPost") {
     fetch(
-      PROXY + `https://kemono.su/api/v1/${message.creator.service}/user/${message.creator.id}/post/${message.postId}`
+      PROXY + KEMONOROOT + `/api/v1/${message.creator.service}/user/${message.creator.id}/post/${message.postId}`
     )
       .then((res) => res.json())
       .then(sendResponse)

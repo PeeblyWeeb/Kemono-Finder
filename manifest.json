@@ -1,6 +1,6 @@
 {
   "name": "Kemono Finder",
-  "description": "Automatically searches for and provides redirects to kemono.su pages.",
+  "description": "Automatically searches for and provides redirects to kemono pages.",
   "version": "1",
   "manifest_version": 3,
   "permissions": ["scripting", "activeTab", "tabs", "downloads"],
