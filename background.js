@@ -13,7 +13,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message.type == "getIsKemonoPost") {
     chrome.tabs.query({ active: true, currentWindow: true }, async ([tab]) => {
-      sendResponse(/https:\/\/kemono\.cr\/[A-z]+\/user\/[0-9]+\/post\/[0-9]+/gm.test(tab.url));
+      sendResponse(
+        /https:\/\/kemono\.cr\/[A-z]+\/user\/[0-9]+\/post\/[0-9]+/gm.test(
+          tab.url,
+        ),
+      );
     });
   }
   if (message.type == "downloadAllPosts") {
